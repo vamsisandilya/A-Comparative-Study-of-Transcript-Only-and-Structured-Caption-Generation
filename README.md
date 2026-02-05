@@ -1,35 +1,35 @@
-# Master’s Project Repository
+# Conversation to Instagram Post Prototype
 
-This repository is used for the Master’s Project course and is managed through GitHub Classroom.  
-**Students shall update this README file to describe their specific project** 
+This project is a simple web-based prototype that converts short conversational audio into text and suggests Instagram-style post captions. The goal is to help users turn everyday conversations into potential social media posts.
 
+## Project Goal
+Many original ideas come from daily conversations, but they are often not shared because writing posts takes extra effort. This project focuses on extracting those ideas from conversation audio and presenting them as caption suggestions.
 
-## Required Workflow
-All project work must follow this sequence:
+## Current Status
+- Project idea defined and documented
+- GitHub Issues created for planning and tracking
+- Development environment set up
+- Initial Streamlit application created
+- Audio upload UI implemented
 
-**Issue → Branch → Pull Request → Instructor Review → Student Merge → Issue Closed**
+## Planned Features
+- Upload or record short audio clips
+- Convert speech to text using existing technology
+- Generate 1–3 Instagram-style caption suggestions
+- Display transcript and suggested captions
 
-Working outside this workflow may result in loss of credit.
+## Out of Scope
+- Auto-posting to Instagram
+- Trend analysis or social media analytics
+- Long-duration audio recording
+- Speaker identification
+- Image generation
 
-## Issue and Pull Request Templates
-This repository includes required GitHub Issue and Pull Request templates.
-- All issues must be created using the provided issue templates.
-- All pull requests must include a completed PR Summary Checklist.
+## Technology Notes
+Specific speech-to-text and text generation tools will be selected after a technology evaluation phase.
 
-## Review Cycles
-The semester is divided into **four review cycles**.
-- Each review cycle requires **one pull request**.
-- Instructor approval is required before any pull request can be merged.
+## Running the Application
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
 
-## Branching Rules
-- One branch per issue
-- Branch names must reference the issue number
-- No work may be committed directly to the `main` branch
-
-## Responsibility
-Students are responsible for:
-- Creating and maintaining issues
-- Using branches correctly
-- Submitting pull requests on time
-- Merging approved pull requests
-- Closing issues only after merge
