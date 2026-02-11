@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.env
+
+# macOS
+.DS_Store
+
+# Optional: local audio files
+*.wav
+*.mp3
+*.m4a
