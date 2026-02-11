@@ -8,8 +8,3 @@ venv/
 
 # macOS
 .DS_Store
-
-# Optional: local audio files
-*.wav
-*.mp3
-*.m4a
