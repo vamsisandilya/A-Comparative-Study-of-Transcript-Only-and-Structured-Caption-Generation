@@ -1,7 +1,9 @@
-# captions.py (replace ONLY analyze_tone with this version)
 import json
 from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 client = OpenAI()
 
 ALLOWED_EMOTIONS = [
