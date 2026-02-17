@@ -279,90 +279,22 @@ def analyze_tone(transcript: str) -> dict:
     # Parse JSON robustly
     try:
         data = json.loads(raw)
-        if not isinstance(data, dict):
-            raise ValueError("Not a JSON object")
-
-        # Validate & sanitize to keep app stable
-        primary = data.get("primary_emotion", "neutral")
-        if primary not in ALLOWED_EMOTIONS:
-            primary = "neutral"
-
-        secondary = data.get("secondary_emotions", [])
-        if not isinstance(secondary, list):
-            secondary = []
-        secondary = [e for e in secondary if e in ALLOWED_EMOTIONS and e != primary]
-        # remove duplicates while preserving order
-        seen = set()
-        secondary_clean = []
-        for e in secondary:
-            if e not in seen:
-                seen.add(e)
-                secondary_clean.append(e)
-        secondary = secondary_clean[:3]
-
-        intensity = data.get("intensity", 0)
-        try:
-            intensity = int(intensity)
-        except Exception:
-            intensity = 0
-        intensity = max(0, min(3, intensity))
-
-        sarcasm = data.get("sarcasm_likelihood", "unknown")
-        if sarcasm not in ["low", "medium", "high", "unknown"]:
-            sarcasm = "unknown"
-
-        confidence = data.get("confidence", 0.0)
-        try:
-            confidence = float(confidence)
-        except Exception:
-            confidence = 0.0
-        confidence = max(0.0, min(1.0, confidence))
-
-        intent = data.get("intent", "unknown")
-        if not isinstance(intent, str):
-            intent = "unknown"
-
-        themes = data.get("themes", [])
-        if not isinstance(themes, list):
-            themes = []
-        themes = [str(t).strip()[:40] for t in themes if str(t).strip()]
-        themes = themes[:5]
-
-        evidence = data.get("evidence", "")
-        if not isinstance(evidence, str):
-            evidence = ""
-        evidence = evidence.strip()[:200]
-
-        return {
-            "primary_emotion": primary,
-            "secondary_emotions": secondary,
-            "intensity": intensity,
-            "sarcasm_likelihood": sarcasm,
-            "confidence": confidence,
-            "intent": intent.strip()[:80],
-            "themes": themes,
-            "evidence": evidence,
-        }
-
+        return _sanitize_tone(data)
     except Exception:
         # Safe fallback if JSON fails
-        return {
-            "primary_emotion": "neutral",
-            "secondary_emotions": [],
-            "intensity": 1,
-            "sarcasm_likelihood": "unknown",
-            "confidence": 0.2,
-            "intent": "unknown",
-            "themes": [],
-            "evidence": raw[:200],
-        }
+        fallback = _safe_empty_tone()
+        fallback["confidence"] = 0.2
+        fallback["evidence"] = raw[:200]
+        return fallback
+
 def generate_captions(transcript: str) -> list[str]:
+    """
+    Condition A: Baseline transcript-only caption generation.
+    Returns EXACTLY 2 captions.
+    """
     transcript = (transcript or "").strip()
     if not transcript:
         return ["(No transcript found)", "(Try a clearer clip)"]
-
-    tone = analyze_tone(transcript)
-
     resp = client.responses.create(
         model="gpt-4o-mini",
         input=[
@@ -370,8 +302,8 @@ def generate_captions(transcript: str) -> list[str]:
                 "role": "developer",
                 "content": (
                     "You write concise, authentic Instagram-style captions from conversation transcripts. "
-                    "Match emotional subtext (including sarcasm if present). "
-                    "Avoid generic motivational language."
+                    "Avoid generic motivational language. "
+                    "Return exactly 2 captions with the required format."
                 ),
             },
             {
@@ -387,18 +319,88 @@ def generate_captions(transcript: str) -> list[str]:
         ],
     )
 
-    text = (resp.output_text or "").strip()
+    return _parse_two_captions(resp.output_text or "")
 
-    cap1 = cap2 = None
+def generate_captions_structured(transcript: str) -> List[str]:
+    """
+    Condition B: Structured tone-guided caption generation.
+    Transcript + Level 1 structured metadata.
+    Returns EXACTLY 2 captions.
+    """
+    transcript = (transcript or "").strip()
+    if not transcript:
+        return ["(No transcript found)", "(Try a clearer clip)"]
+
+    tone = analyze_tone(transcript)
+    tone_block = _tone_block(tone)
+
+    resp = client.responses.create(
+        model="gpt-4o-mini",
+        input=[
+            {
+                "role": "developer",
+                "content": (
+                    "You write concise, authentic Instagram-style captions from conversation transcripts. "
+                    "Use the provided structured tone block as an intermediate representation to guide tone and subtext. "
+                    "Avoid generic motivational language and avoid over-dramatizing. "
+                    "Return exactly 2 captions with the required format."
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    "Return EXACTLY 2 captions in this format:\n"
+                    "Caption 1: reflective (1–3 sentences)\n"
+                    "Caption 2: short/punchy (1 sentence)\n\n"
+                    "Structured tone block:\n"
+                    f"{tone_block}\n"
+                    "Transcript:\n"
+                    f"{transcript}"
+                ),
+            },
+        ],
+    )
+
+    return _parse_two_captions(resp.output_text or "")
+
+
+def _parse_two_captions(text: str) -> List[str]:
+    """
+    Parses the model output into exactly 2 captions.
+    Prefers 'Caption 1:' and 'Caption 2:' markers, but falls back safely.
+    """
+    text = (text or "").strip()
+    if not text:
+        return ["A small moment, a real feeling.", "Keeping it real."]
+
+    cap1 = None
+    cap2 = None
+
     for line in text.splitlines():
-        if line.lower().startswith("caption 1:"):
-            cap1 = line.split(":", 1)[1].strip()
-        elif line.lower().startswith("caption 2:"):
-            cap2 = line.split(":", 1)[1].strip()
+        s = line.strip()
+        if not s:
+            continue
+        lower = s.lower()
+        if lower.startswith("caption 1:"):
+            cap1 = s.split(":", 1)[1].strip()
+        elif lower.startswith("caption 2:"):
+            cap2 = s.split(":", 1)[1].strip()
 
-    if not cap1 or not cap2:
-        parts = [p for p in text.splitlines() if p.strip()]
-        cap1 = parts[0]
-        cap2 = parts[1] if len(parts) > 1 else "A small moment, a big takeaway."
+    if cap1 and cap2:
+        return [cap1, cap2]
 
-    return [cap1, cap2]
+    # Fallback: take first two non-empty lines
+    parts = [p.strip() for p in text.splitlines() if p.strip()]
+    if len(parts) >= 2:
+        return [parts[0], parts[1]]
+
+    # Final fallback: split by sentence-ish
+    return [parts[0] if parts else "A small moment, a real feeling.", "Keeping it real."]
+
+if __name__ == "__main__":
+    sample = "I thought I’d be fine with it, but honestly it still stings a little. Maybe I just need more time."
+    tone = analyze_tone(sample)
+    print("TONE JSON:\n", json.dumps(tone, indent=2, ensure_ascii=False))
+    print("\nBASELINE:\n", generate_captions_baseline(sample))
+    print("\nSTRUCTURED:\n", generate_captions_structured(sample))
+
