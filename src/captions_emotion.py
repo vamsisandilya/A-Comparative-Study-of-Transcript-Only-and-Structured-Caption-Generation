@@ -1,4 +1,5 @@
 import json
+from typing import Any, Dict, List, Tuple
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -27,6 +28,53 @@ ALLOWED_EMOTIONS = [
     "insecurity",
     "neutral",
 ]
+
+ALLOWED_INTENTS: List[str] = [
+    "sharing_experience",
+    "self_reflection",
+    "motivational_statement",
+    "storytelling",
+    "venting",
+    "celebration",
+    "advice",
+    "observation",
+    "request_help",
+    "humor_playful",
+]
+
+ALLOWED_SARCASM: List[str] = ["low", "medium", "high", "unknown"]
+
+TONE_JSON_SCHEMA: Dict[str, Any] = {
+    "name": "tone_analysis",
+    "schema": {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "primary_emotion": {"type": "string"},
+            "secondary_emotions": {
+                "type": "array",
+                "items": {"type": "string"},
+                "maxItems": 3,
+            },
+            "intensity": {"type": "integer", "minimum": 0, "maximum": 3},
+            "sarcasm_likelihood": {"type": "string", "enum": ALLOWED_SARCASM},
+            "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+            "intent": {"type": "string"},
+            "themes": {"type": "array", "items": {"type": "string"}, "maxItems": 5},
+            "evidence": {"type": "string"},
+        },
+        "required": [
+            "primary_emotion",
+            "secondary_emotions",
+            "intensity",
+            "sarcasm_likelihood",
+            "confidence",
+            "intent",
+            "themes",
+            "evidence",
+        ],
+    },
+}
 
 def analyze_tone(transcript: str) -> dict:
     """
