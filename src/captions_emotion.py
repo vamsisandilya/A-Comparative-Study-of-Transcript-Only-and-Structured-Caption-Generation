@@ -76,69 +76,205 @@ TONE_JSON_SCHEMA: Dict[str, Any] = {
     },
 }
 
+def _safe_empty_tone() -> Dict[str, Any]:
+    return {
+        "primary_emotion": "neutral",
+        "secondary_emotions": [],
+        "intensity": 0,
+        "sarcasm_likelihood": "unknown",
+        "confidence": 0.0,
+        "intent": "observation",
+        "themes": [],
+        "evidence": "",
+    }
+
+def _sanitize_tone(data: Any) -> Dict[str, Any]:
+    """
+    Validate + sanitize to keep the app stable and outputs comparable.
+    """
+    if not isinstance(data, dict):
+        return _safe_empty_tone()
+
+    primary = data.get("primary_emotion", "neutral")
+    if primary not in ALLOWED_EMOTIONS:
+        primary = "neutral"
+
+    secondary = data.get("secondary_emotions", [])
+    if not isinstance(secondary, list):
+        secondary = []
+    secondary = [e for e in secondary if e in ALLOWED_EMOTIONS and e != primary]
+
+    # Deduplicate, preserve order, max 3
+    seen = set()
+    secondary_clean = []
+    for e in secondary:
+        if e not in seen:
+            seen.add(e)
+            secondary_clean.append(e)
+    secondary = secondary_clean[:3]
+
+    intensity = data.get("intensity", 0)
+    try:
+        intensity = int(intensity)
+    except Exception:
+        intensity = 0
+    intensity = max(0, min(3, intensity))
+
+    sarcasm = data.get("sarcasm_likelihood", "unknown")
+    if sarcasm not in ALLOWED_SARCASM:
+        sarcasm = "unknown"
+
+    confidence = data.get("confidence", 0.0)
+    try:
+        confidence = float(confidence)
+    except Exception:
+        confidence = 0.0
+    confidence = max(0.0, min(1.0, confidence))
+
+    intent = data.get("intent", "observation")
+    if not isinstance(intent, str):
+        intent = "observation"
+    intent = intent.strip()
+    if intent not in ALLOWED_INTENTS:
+        # Conservative fallback if model invents something
+        intent = "observation"
+
+    themes = data.get("themes", [])
+    if not isinstance(themes, list):
+        themes = []
+    # Short noun phrases only; clamp length
+    cleaned_themes = []
+    for t in themes:
+        s = str(t).strip()
+        if not s:
+            continue
+        # Keep it compact for stability
+        cleaned_themes.append(s[:40])
+    themes = cleaned_themes[:5]
+
+    evidence = data.get("evidence", "")
+    if not isinstance(evidence, str):
+        evidence = ""
+    evidence = evidence.strip()[:200]
+
+    # Tiny heuristic: if sarcasm is "high" and intensity is 0, bump to 1
+    if sarcasm == "high" and intensity == 0:
+        intensity = 1
+
+    return {
+        "primary_emotion": primary,
+        "secondary_emotions": secondary,
+        "intensity": intensity,
+        "sarcasm_likelihood": sarcasm,
+        "confidence": confidence,
+        "intent": intent[:80],
+        "themes": themes,
+        "evidence": evidence,
+    }
+    
+def _tone_block(tone: Dict[str, Any]) -> str:
+    """
+    Human-readable intermediate representation for conditioning the generator.
+    Makes the structure obvious in demos and keeps prompts stable.
+    """
+    secondary = ", ".join(tone.get("secondary_emotions", [])) or "none"
+    themes = ", ".join(tone.get("themes", [])) or "none"
+    evidence = tone.get("evidence", "").replace("\n", " ").strip()
+    return (
+        f"primary_emotion: {tone.get('primary_emotion', 'neutral')}\n"
+        f"secondary_emotions: {secondary}\n"
+        f"intensity: {tone.get('intensity', 0)}\n"
+        f"sarcasm_likelihood: {tone.get('sarcasm_likelihood', 'unknown')}\n"
+        f"confidence: {tone.get('confidence', 0.0)}\n"
+        f"intent: {tone.get('intent', 'observation')}\n"
+        f"themes: {themes}\n"
+        f"evidence: \"{evidence}\"\n"
+    )
+
+def _responses_create_with_optional_json_schema(model: str, input_messages: List[Dict[str, str]]) -> Tuple[str, bool]:
+    """
+    Tries to enforce JSON schema output if your SDK supports it.
+    Falls back to normal text if not supported.
+
+    Returns (output_text, used_schema_bool)
+    """
+    try:
+        resp = client.responses.create(
+            model=model,
+            input=input_messages,
+            text={
+                "format": {
+                    "type": "json_schema",
+                    "json_schema": TONE_JSON_SCHEMA,
+                }
+            },
+        )
+        return (resp.output_text or "").strip(), True
+    except TypeError:
+        # SDK doesn't support text.format (older/newer shape)
+        resp = client.responses.create(model=model, input=input_messages)
+        return (resp.output_text or "").strip(), False
+    except Exception:
+        # Any other failure: fallback call without schema
+        resp = client.responses.create(model=model, input=input_messages)
+        return (resp.output_text or "").strip(), False
+
 def analyze_tone(transcript: str) -> dict:
     """
-    Level 1: Text-only emotion + sarcasm + intent analysis.
-    Outputs stable labels from ALLOWED_EMOTIONS, plus intensity and confidence.
+    Level 1: Text-only structured conversational signal extraction.
+    Emotion + intensity + sarcasm + intent + themes + evidence + confidence.
+
+    Outputs stable labels from ALLOWED_EMOTIONS / ALLOWED_INTENTS.
     """
     transcript = (transcript or "").strip()
     if not transcript:
-        return {
-            "primary_emotion": "neutral",
-            "secondary_emotions": [],
-            "intensity": 0,
-            "sarcasm_likelihood": "unknown",
-            "confidence": 0.0,
-            "intent": "unknown",
-            "themes": [],
-            "evidence": ""
-        }
+        return _safe_empty_tone()
 
     emotion_list_str = ", ".join(ALLOWED_EMOTIONS)
+    intent_list_str = ", ".join(ALLOWED_INTENTS)
 
-    resp = client.responses.create(
-        model="gpt-4o-mini",
-        input=[
-            {
-                "role": "developer",
-                "content": (
-                    "You are a careful analyst of conversational text. "
-                    "Infer emotional tone and sarcasm conservatively. "
-                    "You MUST output ONLY valid JSON with the exact schema and constraints. "
-                    "If unsure, choose primary_emotion='neutral', sarcasm_likelihood='low' or 'unknown', "
-                    "and set confidence low."
-                ),
-            },
-            {
-                "role": "user",
-                "content": (
-                    "Analyze the transcript and return JSON with EXACTLY this schema:\n"
-                    "{\n"
-                    '  "primary_emotion": one_of_allowed_emotions,\n'
-                    '  "secondary_emotions": [up_to_3_allowed_emotions_distinct_from_primary],\n'
-                    '  "intensity": integer_0_to_3,\n'
-                    '  "sarcasm_likelihood": "low"|"medium"|"high"|"unknown",\n'
-                    '  "confidence": number_0_to_1,\n'
-                    '  "intent": short_string,\n'
-                    '  "themes": [up_to_5_short_strings],\n'
-                    '  "evidence": short_quote_or_paraphrase_from_transcript\n'
-                    "}\n\n"
-                    f"Allowed emotions (choose ONLY from this list): {emotion_list_str}\n\n"
-                    "Rules:\n"
-                    "- primary_emotion MUST be exactly one item from the allowed list.\n"
-                    "- secondary_emotions MUST be 0–3 items, from the allowed list, no duplicates, and not equal to primary.\n"
-                    "- intensity: 0=none/flat, 1=mild, 2=moderate, 3=strong.\n"
-                    "- sarcasm_likelihood should be 'unknown' if there isn't clear textual evidence.\n"
-                    "- confidence should reflect how certain you are based on the words alone.\n"
-                    "- Return JSON ONLY (no markdown, no extra text).\n\n"
-                    "Transcript:\n"
-                    f"{transcript}"
-                ),
-            },
-        ],
+    developer_msg = (
+        "You are a structured conversational signal extractor (Level 1, text-only). "
+        "Be conservative: do NOT over-infer emotion. "
+        "If evidence is weak or mixed, choose primary_emotion='neutral' and keep intensity low (0 or 1). "
+        "Sarcasm should be 'unknown' unless there are clear textual cues (obvious irony/contradiction). "
+        "Output MUST be valid JSON only and match the required schema exactly."
     )
 
-    raw = (resp.output_text or "").strip()
+    user_msg = (
+        "Return JSON with EXACTLY this schema:\n"
+        "{\n"
+        '  "primary_emotion": one_of_allowed_emotions,\n'
+        '  "secondary_emotions": [0_to_3_allowed_emotions_distinct_from_primary],\n'
+        '  "intensity": 0|1|2|3,\n'
+        '  "sarcasm_likelihood": "low"|"medium"|"high"|"unknown",\n'
+        '  "confidence": number_0_to_1,\n'
+        '  "intent": one_of_allowed_intents,\n'
+        '  "themes": [0_to_5_short_noun_phrases],\n'
+        '  "evidence": exact_quote_from_transcript\n'
+        "}\n\n"
+        f"Allowed emotions: {emotion_list_str}\n"
+        f"Allowed intents: {intent_list_str}\n\n"
+        "Rules:\n"
+        "- primary_emotion MUST be exactly one item from Allowed emotions.\n"
+        "- secondary_emotions: 0–3 items, from Allowed emotions, no duplicates, not equal to primary.\n"
+        "- intensity: 0=flat, 1=mild, 2=moderate, 3=strong.\n"
+        "- sarcasm_likelihood: use 'unknown' unless clear sarcasm/irony is present.\n"
+        "- themes: short noun phrases only (1–4 words each). No sentences.\n"
+        "- evidence MUST be an exact quote copied from the transcript (max 1 sentence, <=200 chars).\n"
+        "- confidence reflects certainty from text only.\n"
+        "- Return JSON ONLY.\n\n"
+        "Transcript:\n"
+        f"{transcript}"
+    )
+
+    raw, _used_schema = _responses_create_with_optional_json_schema(
+        model="gpt-4o-mini",
+        input_messages=[
+            {"role": "developer", "content": developer_msg},
+            {"role": "user", "content": user_msg},
+        ],
+    )
 
     # Parse JSON robustly
     try:
