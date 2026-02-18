@@ -2,10 +2,14 @@ import json
 from typing import Any, Dict, List, Tuple
 from openai import OpenAI
 from dotenv import load_dotenv
-import os
+
+from captions_base import generate_captions
+
 
 load_dotenv()
 client = OpenAI()
+
+DEFAULT_TEMPERATURE = 0.2
 
 ALLOWED_EMOTIONS = [
     "joy",
@@ -88,6 +92,7 @@ def _safe_empty_tone() -> Dict[str, Any]:
         "evidence": "",
     }
 
+
 def _sanitize_tone(data: Any) -> Dict[str, Any]:
     """
     Validate + sanitize to keep the app stable and outputs comparable.
@@ -102,7 +107,10 @@ def _sanitize_tone(data: Any) -> Dict[str, Any]:
     secondary = data.get("secondary_emotions", [])
     if not isinstance(secondary, list):
         secondary = []
-    secondary = [e for e in secondary if e in ALLOWED_EMOTIONS and e != primary]
+    secondary = [
+        e for e in secondary
+        if e in ALLOWED_EMOTIONS and e != primary and e != "neutral"
+    ]
 
     # Deduplicate, preserve order, max 3
     seen = set()
@@ -171,12 +179,9 @@ def _sanitize_tone(data: Any) -> Dict[str, Any]:
         "themes": themes,
         "evidence": evidence,
     }
-    
+
+
 def _tone_block(tone: Dict[str, Any]) -> str:
-    """
-    Human-readable intermediate representation for conditioning the generator.
-    Makes the structure obvious in demos and keeps prompts stable.
-    """
     secondary = ", ".join(tone.get("secondary_emotions", [])) or "none"
     themes = ", ".join(tone.get("themes", [])) or "none"
     evidence = tone.get("evidence", "").replace("\n", " ").strip()
@@ -191,7 +196,8 @@ def _tone_block(tone: Dict[str, Any]) -> str:
         f"evidence: \"{evidence}\"\n"
     )
 
-def _responses_create_with_optional_json_schema(model: str, input_messages: List[Dict[str, str]]) -> Tuple[str, bool]:
+
+def _responses_create_with_optional_json_schema(model: str, input_messages: List[Dict[str, str]], temperature: float = 0.2,) -> Tuple[str, bool]:
     """
     Tries to enforce JSON schema output if your SDK supports it.
     Falls back to normal text if not supported.
@@ -201,6 +207,7 @@ def _responses_create_with_optional_json_schema(model: str, input_messages: List
     try:
         resp = client.responses.create(
             model=model,
+            temperature=DEFAULT_TEMPERATURE,
             input=input_messages,
             text={
                 "format": {
@@ -212,16 +219,17 @@ def _responses_create_with_optional_json_schema(model: str, input_messages: List
         return (resp.output_text or "").strip(), True
     except TypeError:
         # SDK doesn't support text.format (older/newer shape)
-        resp = client.responses.create(model=model, input=input_messages)
+        resp = client.responses.create(model=model, temperature=temperature, input=input_messages)
         return (resp.output_text or "").strip(), False
     except Exception:
         # Any other failure: fallback call without schema
-        resp = client.responses.create(model=model, input=input_messages)
+        resp = client.responses.create(model=model, temperature=temperature, input=input_messages)
         return (resp.output_text or "").strip(), False
+
 
 def analyze_tone(transcript: str) -> dict:
     """
-    Level 1: Text-only structured conversational signal extraction.
+    Text-only structured conversational signal extraction.
     Emotion + intensity + sarcasm + intent + themes + evidence + confidence.
 
     Outputs stable labels from ALLOWED_EMOTIONS / ALLOWED_INTENTS.
@@ -270,6 +278,7 @@ def analyze_tone(transcript: str) -> dict:
 
     raw, _used_schema = _responses_create_with_optional_json_schema(
         model="gpt-4o-mini",
+        temperature=DEFAULT_TEMPERATURE,
         input_messages=[
             {"role": "developer", "content": developer_msg},
             {"role": "user", "content": user_msg},
@@ -287,7 +296,8 @@ def analyze_tone(transcript: str) -> dict:
         fallback["evidence"] = raw[:200]
         return fallback
 
-def generate_captions(transcript: str) -> list[str]:
+
+def generate_captions_structured(transcript: str) -> list[str]:
     """
     Condition A: Baseline transcript-only caption generation.
     Returns EXACTLY 2 captions.
@@ -295,13 +305,17 @@ def generate_captions(transcript: str) -> list[str]:
     transcript = (transcript or "").strip()
     if not transcript:
         return ["(No transcript found)", "(Try a clearer clip)"]
+    tone = analyze_tone(transcript)
+    tone_block = _tone_block(tone)
     resp = client.responses.create(
         model="gpt-4o-mini",
+        temperature=DEFAULT_TEMPERATURE,
         input=[
             {
                 "role": "developer",
                 "content": (
                     "You write concise, authentic Instagram-style captions from conversation transcripts. "
+                    "Use the structured tone block as an intermediate representation to guide tone and subtext. "
                     "Avoid generic motivational language. "
                     "Return exactly 2 captions with the required format."
                 ),
@@ -312,50 +326,9 @@ def generate_captions(transcript: str) -> list[str]:
                     "Return EXACTLY 2 captions.\n"
                     "Caption 1: reflective (1–3 sentences)\n"
                     "Caption 2: short/punchy (1 sentence)\n\n"
-                    f"TONE_ANALYSIS:\n{tone}\n\n"
-                    f"TRANSCRIPT:\n{transcript}"
-                ),
-            },
-        ],
-    )
-
-    return _parse_two_captions(resp.output_text or "")
-
-def generate_captions_structured(transcript: str) -> List[str]:
-    """
-    Condition B: Structured tone-guided caption generation.
-    Transcript + Level 1 structured metadata.
-    Returns EXACTLY 2 captions.
-    """
-    transcript = (transcript or "").strip()
-    if not transcript:
-        return ["(No transcript found)", "(Try a clearer clip)"]
-
-    tone = analyze_tone(transcript)
-    tone_block = _tone_block(tone)
-
-    resp = client.responses.create(
-        model="gpt-4o-mini",
-        input=[
-            {
-                "role": "developer",
-                "content": (
-                    "You write concise, authentic Instagram-style captions from conversation transcripts. "
-                    "Use the provided structured tone block as an intermediate representation to guide tone and subtext. "
-                    "Avoid generic motivational language and avoid over-dramatizing. "
-                    "Return exactly 2 captions with the required format."
-                ),
-            },
-            {
-                "role": "user",
-                "content": (
-                    "Return EXACTLY 2 captions in this format:\n"
-                    "Caption 1: reflective (1–3 sentences)\n"
-                    "Caption 2: short/punchy (1 sentence)\n\n"
-                    "Structured tone block:\n"
+                    "STRUCTURED_TONE_BLOCK:\n"
                     f"{tone_block}\n"
-                    "Transcript:\n"
-                    f"{transcript}"
+                    f"TRANSCRIPT:\n{transcript}"
                 ),
             },
         ],
@@ -397,10 +370,10 @@ def _parse_two_captions(text: str) -> List[str]:
     # Final fallback: split by sentence-ish
     return [parts[0] if parts else "A small moment, a real feeling.", "Keeping it real."]
 
+
 if __name__ == "__main__":
     sample = "I thought I’d be fine with it, but honestly it still stings a little. Maybe I just need more time."
     tone = analyze_tone(sample)
     print("TONE JSON:\n", json.dumps(tone, indent=2, ensure_ascii=False))
-    print("\nBASELINE:\n", generate_captions_baseline(sample))
     print("\nSTRUCTURED:\n", generate_captions_structured(sample))
 

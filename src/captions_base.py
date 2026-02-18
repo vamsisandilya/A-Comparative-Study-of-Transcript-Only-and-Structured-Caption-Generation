@@ -1,10 +1,10 @@
 from openai import OpenAI
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
 client = OpenAI()
+
 
 def generate_captions(transcript: str) -> list[str]:
     """
@@ -22,7 +22,10 @@ def generate_captions(transcript: str) -> list[str]:
                 "role": "developer",
                 "content": (
                     "You write concise, authentic Instagram-style captions from conversation transcripts. "
-                    "Avoid generic motivational language. Keep it natural and human."
+                    "Do not use clichés or therapy-speak. Avoid these phrases/words: journey, race, season, blessing, grace, 'it's okay to not be okay'."
+                    "Avoid generic motivational clichés (e.g., 'journey', 'everything happens for a reason'). Keep it natural and specific to the transcript."
+                    "Keep it natural, specific to the transcript, and human."
+
                 ),
             },
             {
