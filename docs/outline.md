@@ -81,6 +81,19 @@ Using 8–12 short conversational audio clips representing different emotional t
 - **Condition A:** Transcript-only generation.
 - **Condition B:** Structured emotion-guided generation.
 
+All other variables will be held constant, including:
+- Model (gpt-4o-mini)
+- Temperature (0.2)
+- Caption-writing prompt
+- Transcript input text
+- Output format (two captions per clip)
+
+For each audio clip:
+1. A transcript will be generated and saved.
+2. Captions will be generated under both conditions.
+3. The outputs will be randomized into Set X and Set Y.
+4. Evaluators will not know which condition produced which set.
+
 Two independent graduate-level evaluators will assess the generated captions using a 1–5 rating scale based on:
 
 - Relevance to the spoken content  
@@ -88,5 +101,9 @@ Two independent graduate-level evaluators will assess the generated captions usi
 - Preservation of conversational subtext  
 - Authenticity and suitability as an Instagram caption  
 
-Ratings will be averaged across both approaches to identify consistent differences. The evaluation is exploratory and intended to compare approaches.
+Evaluators will also indicate overall preference (X or Y).
+
+Scores will be averaged across clips and evaluators to identify consistent differences between approaches. 
+ 
+ The evaluation is exploratory and intended to compare approaches.
 
