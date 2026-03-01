@@ -1,13 +1,14 @@
 import os
 from src.stt import transcribe_audio
 from src.captions_base import generate_captions as generate_baseline
-
+from src.captions_emotion import generate_captions_structured
 
 AUDIO_FOLDER = "data/eval_audio"
 OUTPUT_FOLDER = "data/eval_outputs"
 TRANSCRIPT_FOLDER = os.path.join(OUTPUT_FOLDER, "transcripts")
 AUDIO_EXTS = (".wav", ".mp3", ".m4a")
 BASELINE_FOLDER = os.path.join(OUTPUT_FOLDER, "baseline")
+STRUCTURED_FOLDER = os.path.join(OUTPUT_FOLDER, "structured")
 
 
 def get_audio_files():
@@ -84,6 +85,21 @@ def main():
         baseline_text = format_captions(baseline_captions)
         save_text(BASELINE_FOLDER, stem, baseline_text)
         print(f"Baseline captions saved for {audio_file}")
+
+    for audio_file in files:
+        stem = os.path.splitext(audio_file)[0]
+        transcript = load_transcript(stem)
+
+        structured_out_path = os.path.join(STRUCTURED_FOLDER, f"{stem}.txt")
+        if os.path.exists(structured_out_path):
+            print(f"Skipping structured captions for {audio_file} (already exists)")
+            continue
+
+        print(f"Generating structured captions for {audio_file}...")
+        structured_captions = generate_captions_structured(transcript)
+        structured_text = format_captions(structured_captions)
+        save_text(STRUCTURED_FOLDER, stem, structured_text)
+        print(f"Structured captions saved for {audio_file}")
 
 
 if __name__ == "__main__":
