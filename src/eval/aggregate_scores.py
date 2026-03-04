@@ -28,6 +28,33 @@ def load_scores(path: str) -> List[Dict[str, Any]]:
         return list(csv.DictReader(f))
 
 
+def normalize_rows(
+    score_rows: List[Dict[str, Any]],
+    mapping: Dict[str, Dict[str, str]],
+) -> List[Dict[str, Any]]:
+
+    normalized: List[Dict[str, Any]] = []
+
+    for row in score_rows:
+        clip = (row.get("clip") or "").strip()
+        set_label = (row.get("set") or "").strip().upper()
+
+        if clip not in mapping:
+            continue
+
+        if set_label not in ("X", "Y"):
+            continue
+
+        condition = mapping[clip][set_label]
+
+        new_row = dict(row)
+        new_row["condition"] = condition
+
+        normalized.append(new_row)
+
+    return normalized
+
+
 def main():
     if not os.path.exists(MAPPING_CSV):
         raise FileNotFoundError(f"Missing mapping: {MAPPING_CSV}")
@@ -38,6 +65,16 @@ def main():
     if os.path.exists(SCORES_CSV):
         scores = load_scores(SCORES_CSV)
         print(f"[OK] scores rows: {len(scores)}")
+    else:
+        print(f"[INFO] scores.csv not found yet: {SCORES_CSV}")
+
+    if os.path.exists(SCORES_CSV):
+        scores = load_scores(SCORES_CSV)
+        print(f"[OK] scores rows: {len(scores)}")
+
+        normalized = normalize_rows(scores, mapping)
+        print(f"[OK] normalized rows: {len(normalized)}")
+   
     else:
         print(f"[INFO] scores.csv not found yet: {SCORES_CSV}")
 
