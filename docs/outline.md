@@ -2,9 +2,11 @@
 ## From Conversation to Instagram Captions
 
 
-## 1. What Am I Investigating?
+## 1. Introduction
 
-In this project, I am investigating how to design and build a system that converts short conversational audio into Instagram-style captions while preserving emotional tone and conversational meaning.
+In this project, I investigate how to design and build a system that converts short conversational audio into Instagram-style captions while preserving emotional tone and conversational meaning. Informal conversations often contain reflections or insights that could be shared as social media content, but transforming these spoken ideas into written captions typically requires additional effort.
+
+This project explores whether incorporating structured emotional inference into caption generation improves the relevance and authenticity of generated captions compared to a transcript-only approach.
 
 More specifically, I am investigating:
 
@@ -12,10 +14,8 @@ More specifically, I am investigating:
 - How structured emotional inference can guide caption generation.
 - How transcript-only caption generation compares to caption generation that incorporates emotional metadata.
 
-This project combines system development and structured comparison. The goal is to understand whether adding emotional inference improves the relevance and authenticity of generated captions.
 
-
-## 2. What Are My Objectives?
+## 2. Objectives
 
 The main objectives of this project are:
 
@@ -29,9 +29,12 @@ The main objectives of this project are:
 
 
 
-## 3. How Will I Carry Out the Work?
+## 3. Approach
 
-The project will be developed using a modular and incremental approach.
+The project will be developed using a modular pipeline that transforms conversational audio into captions. A Streamlit interface will allow users to upload short audio clips. These clips will be transcribed using OpenAI Whisper to produce a text transcript.
+
+Two caption-generation pipelines will then be implemented. The baseline pipeline generates captions directly from the transcript. The structured pipeline first performs text-based emotional inference that produces a constrained representation containing signals such as primary emotion, conversational intent, and themes. This structured representation is then used to guide caption generation.
+
 
 ### System Components
 
@@ -61,7 +64,7 @@ The project will be developed using a modular and incremental approach.
 
 
 
-## 4. What Results Do I Expect?
+## 4. Expected Results
 
 The result of my study is expected to include:
 
@@ -72,7 +75,7 @@ The result of my study is expected to include:
 
 
 
-## 5. How Will I Evaluate the Results?
+## 5. Evaluation
 
 The system will be evaluated through structured comparison.
 
