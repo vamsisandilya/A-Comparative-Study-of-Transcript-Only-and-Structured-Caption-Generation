@@ -2,6 +2,8 @@ import csv
 import os
 from typing import Dict, List, Any
 
+from torch.linalg import cond
+
 OUTPUT_FOLDER = "data/eval_outputs"
 MAPPING_CSV = os.path.join(OUTPUT_FOLDER, "xy_mapping.csv")
 SCORES_CSV = os.path.join(OUTPUT_FOLDER, "scores.csv")
@@ -55,6 +57,47 @@ def normalize_rows(
     return normalized
 
 
+def aggregate_scores(rows: List[Dict[str, Any]], mapping):    
+    metrics = ["relevance", "emotion_alignment", "subtext", "authenticity"]
+
+    sums = {"baseline": {m: 0 for m in metrics},
+            "structured": {m: 0 for m in metrics}}
+
+    counts = {"baseline": 0, "structured": 0}
+
+    preference = {"baseline": 0, "structured": 0}
+
+    for r in rows:
+        cond = (r.get("condition") or "").strip()
+        if cond not in ("baseline", "structured"):
+            continue
+
+        for m in metrics:
+            val = r.get(m)
+            if val:
+                sums[cond][m] += float(val)
+
+        counts[cond] += 1
+
+        pref = (r.get("preference") or "").strip().upper()
+        if pref in ("X", "Y"):
+            clip = r["clip"]
+            pref_cond = mapping[clip][pref]
+            preference[pref_cond] += 1
+
+    means = {}
+
+    for cond in sums:
+        means[cond] = {}
+        for m in metrics:
+            if counts[cond] > 0:
+                means[cond][m] = sums[cond][m] / counts[cond]
+            else:
+                means[cond][m] = 0
+
+    return means, preference
+
+
 def main():
     if not os.path.exists(MAPPING_CSV):
         raise FileNotFoundError(f"Missing mapping: {MAPPING_CSV}")
@@ -62,21 +105,23 @@ def main():
     mapping = load_xy_mapping(MAPPING_CSV)
     print(f"[OK] xy_mapping rows: {len(mapping)}")
 
-    if os.path.exists(SCORES_CSV):
-        scores = load_scores(SCORES_CSV)
-        print(f"[OK] scores rows: {len(scores)}")
-    else:
+    if not os.path.exists(SCORES_CSV):
         print(f"[INFO] scores.csv not found yet: {SCORES_CSV}")
+        return
 
-    if os.path.exists(SCORES_CSV):
-        scores = load_scores(SCORES_CSV)
-        print(f"[OK] scores rows: {len(scores)}")
+    scores = load_scores(SCORES_CSV)
+    print(f"[OK] scores rows: {len(scores)}")
 
-        normalized = normalize_rows(scores, mapping)
-        print(f"[OK] normalized rows: {len(normalized)}")
-   
-    else:
-        print(f"[INFO] scores.csv not found yet: {SCORES_CSV}")
+    normalized_scores = normalize_rows(scores, mapping)
+    print(f"[OK] normalized scores rows: {len(normalized_scores)}")
+
+    means, preference = aggregate_scores(normalized_scores, mapping)
+
+    print("\nAverage Scores")
+    print(means)
+
+    print("\nPreference Counts")
+    print(preference)
 
 
 if __name__ == "__main__":
