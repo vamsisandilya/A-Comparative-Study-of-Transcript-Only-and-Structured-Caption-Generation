@@ -82,6 +82,12 @@ The result of my study is expected to include:
 
 ## 5. Evaluation
 
+The system will be evaluated through a controlled comparison of the two caption-generation approaches. A dataset of approximately 8–12 short conversational audio clips representing a range of emotional contexts will be used.
+
+Captions will be generated under two conditions: transcript-only generation and structured emotion-guided generation. All other variables will remain constant, including the language model, temperature settings, prompt design, transcript input, and output format.
+
+Outputs will be randomized into two sets (X and Y) so that evaluators cannot determine which method produced each caption set. Two independent evaluators will rate the captions using a 1–5 scale based on relevance, emotional alignment, preservation of conversational subtext, and authenticity as an Instagram caption. Evaluators will also indicate their overall preference. Results will be averaged across clips and evaluators to identify consistent differences between the approaches.
+
 The system will be evaluated through structured comparison.
 
 Using 8–12 short conversational audio clips representing different emotional tones, captions will be generated under two conditions:
