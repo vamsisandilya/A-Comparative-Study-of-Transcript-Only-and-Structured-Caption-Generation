@@ -26,4 +26,4 @@ venv/
 *.wav
 *.mp3
 *.m4a
-data/eval_outputs/
+data/
