@@ -19,5 +19,26 @@ Evaluators also selected which caption set they preferred overall.
 
 ## Results
 
+After collecting evaluator scores, the results were aggregated across all clips and evaluators. The structured caption generation method achieved higher average scores across all evaluation categories.
+
+Average scores for the baseline method were:
+- Relevance: 4.125
+- Emotion alignment: 3.438
+- Subtext: 3.781
+- Authenticity: 3.875
+
+Average scores for the structured method were:
+- Relevance: 4.531
+- Emotion alignment: 4.500
+- Subtext: 4.156
+- Authenticity: 4.281
+
+Evaluator preferences also favored the structured approach. Across all evaluations, structured captions were selected 42 times, while baseline captions were selected 22 times.
+
 ## Observations
+
+
+
+## Limitations
+
 
