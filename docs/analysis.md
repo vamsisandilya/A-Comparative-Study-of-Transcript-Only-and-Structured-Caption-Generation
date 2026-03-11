@@ -37,8 +37,13 @@ Evaluator preferences also favored the structured approach. Across all evaluatio
 
 ## Observations
 
+The results suggest that the structured caption generation method performed better overall than the transcript-only baseline. Structured captions received higher scores across all four evaluation criteria.
+The biggest improvement appeared in emotion alignment, where the structured approach scored noticeably higher than the baseline. This suggests that identifying emotional signals before caption generation helps the language model produce captions that better match the tone and intent of the original speech.
+Evaluator preferences also supported this pattern. Even in cases where both captions were reasonable, evaluators more often selected the structured captions as the better option.
 
 
 ## Limitations
+
+
 
 
