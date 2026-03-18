@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Tuple
 from openai import OpenAI
 from dotenv import load_dotenv
 
-from captions_base import generate_captions
+from src.captions_base import generate_captions
 
 
 load_dotenv()
