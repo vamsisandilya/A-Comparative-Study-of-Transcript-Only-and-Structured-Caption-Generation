@@ -42,8 +42,10 @@ The evaluation results will help show whether using structured conversational si
 
 ## 5. Evaluation
 
-The system will be evaluated through a controlled comparison of the two caption-generation approaches. A dataset of approximately 16 short conversational audio clips representing a range of emotional contexts will be used.
+To compare the baseline and structured caption generation approaches, a controlled human evaluation is conducted using a dataset of short conversational audio clips.
 
-Captions will be generated under two conditions: transcript-only generation and structured emotion-guided generation. All other variables will remain constant, including the language model, temperature settings, prompt design, transcript input, and output format.
+The dataset consists of 50 conversational audio clips. Each clip is transcribed using the speech-to-text component of the system. For each transcript, two sets of captions are generated: one using the baseline transcript-only approach and one using the structured tone-guided approach.
 
-Outputs will be randomized into two sets (X and Y) so that evaluators cannot determine which method produced each caption set. Two independent evaluators will rate the captions using a 1–5 scale based on relevance, emotional alignment, preservation of conversational subtext, and authenticity as an Instagram caption. Evaluators will also indicate their overall preference. Results will be averaged across clips and evaluators to identify consistent differences between the approaches.
+During evaluation, each evaluator first listens to the original audio clip to understand the context and tone of the conversation. The evaluator then reads the transcript, followed by both caption sets.
+
+To ensure a fair comparison, the captions are presented in a blinded format. For each clip, the two caption sets are labeled as “Set X” and “Set Y,” and their order is randomized. This prevents evaluators from knowing which method produces each caption and reduces potential bias.
