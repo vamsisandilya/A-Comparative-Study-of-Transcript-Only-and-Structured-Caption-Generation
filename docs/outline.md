@@ -49,3 +49,32 @@ The dataset consists of 50 conversational audio clips. Each clip is transcribed 
 During evaluation, each evaluator first listens to the original audio clip to understand the context and tone of the conversation. The evaluator then reads the transcript, followed by both caption sets.
 
 To ensure a fair comparison, the captions are presented in a blinded format. For each clip, the two caption sets are labeled as “Set X” and “Set Y,” and their order is randomized. This prevents evaluators from knowing which method produces each caption and reduces potential bias.
+
+Evaluators assess each caption set independently based on four criteria: relevance, emotion alignment, subext and authenticity. Each criteria is scored on scale from 1 to 7 using a defined rubric.
+
+- Relevance
+Refers to the degree to which the caption is related or useful to what is being expressed in the conversation.
+
+1: The caption is unrelated or does not reflect the conversation
+4: The caption partially reflects the main idea
+7: The caption clearly and accurately reflects the main idea of the conversation
+
+- Emotion Alignment
+Measures how well the caption matches the emotional tone of the conversation.
+1: The emotional tone is incorrect or mismatched
+4: The caption partially reflects the emotional tone
+7: The caption strongly matches the emotional tone
+
+- Subtext
+Refers to the hidden or less obvious meaning conveyed by the caption beyond the literal words.
+1: The caption does not capture any implied meaning
+4: The caption captures some implied meaning
+7: The caption effectively reflects underlying meaning or nuance
+
+- Authenticity
+Refers to the quality of the caption being real, natural, and believable in a social media context.
+1: The caption feels unnatural, forced, or artificial
+4: The caption is somewhat natural but not fully convincing
+7: The caption feels natural, genuine, and appropriate
+
+In addition to scoring, evaluators select which caption set (X or Y) they prefer overall. This provides a direct comparison between the two approaches and helps identify which method produces more effective captions in practice.
