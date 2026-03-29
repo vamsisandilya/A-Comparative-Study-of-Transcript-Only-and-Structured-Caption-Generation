@@ -2,91 +2,87 @@
 ## From Conversation to Instagram Captions
 
 
-## 1. What Am I Investigating?
+## 1. Introduction
 
-In this project, I am investigating how to design and build a system that converts short conversational audio into Instagram-style captions while preserving emotional tone and conversational meaning.
+In this project, I investigate how to design and build a system that converts short conversational audio into Instagram-style captions while preserving emotional tone and conversational meaning. Informal conversations often contain reflections or insights that could be shared as social media content, but transforming these spoken ideas into written captions typically requires additional effort.
 
-More specifically, I am investigating:
-
-- How to build a pipeline that turns spoken conversation into structured written content.
-- How structured emotional inference can guide caption generation.
-- How transcript-only caption generation compares to caption generation that incorporates emotional metadata.
-
-This project combines system development and structured comparison. The goal is to understand whether adding emotional inference improves the relevance and authenticity of generated captions.
-
-
-## 2. What Are My Objectives?
-
-The main objectives of this project are:
-
-- To build a working prototype that accepts short conversational audio clips.
-- To convert speech into text using a speech recognition model.
-- To implement structured text-based emotional inference (Level 1).
-- To generate captions using two approaches:
-  - A baseline transcript-only method.
-  - A structured emotion-guided method.
-- To compare the two approaches in a controlled evaluation.
+This project explores whether incorporating structured emotional inference into caption generation improves the relevance and authenticity of generated captions compared to a transcript-only approach.
 
 
 
-## 3. How Will I Carry Out the Work?
+## 2. Objectives
 
-The project will be developed using a modular and incremental approach.
+The main objective of this project is to design and implement a working prototype that converts short conversational audio clips into caption suggestions suitable for social media. The system will first convert speech into text using a speech recognition model and then generate caption suggestions from the resulting transcript.
 
-### System Components
-
-- **Streamlit Web Interface** for user interaction.
-- **Speech-to-Text Module** using OpenAI Whisper.
-- **Structured Emotional Inference Module (Level 1)** using constrained JSON output.
-- **Baseline Caption Generator** (transcript-only).
-- **Structured Emotion-Guided Caption Generator**.
-- **Comparison Interface** displaying both outputs side-by-side.
-
-### Planned Milestones
-
-- Establish clean project structure and environment setup.
-- Integrate speech-to-text transcription.
-- Implement structured emotional inference.
-- Implement baseline and structured caption generators.
-- Integrate comparison display in the UI.
-- Prepare evaluation samples and rating rubric.
-
-### Tools and Technologies
-
-- Python  
-- Streamlit  
-- OpenAI Whisper  
-- OpenAI GPT-4o-mini API  
-- GitHub for version control  
+A second objective is to incorporate a structured emotional inference layer that extracts conversational signals such as emotion, intent, and themes. Using this structure, the system will generate captions using two approaches: a baseline transcript-only method and a structured emotion-guided method. The final objective is to compare these approaches through controlled evaluation.
 
 
 
-## 4. What Results Do I Expect?
+## 3. Approach
 
-The result of my study is expected to include:
+The project will be developed using a modular pipeline that transforms conversational audio into captions. A Streamlit interface will allow users to upload short audio clips. These clips will be transcribed using OpenAI Whisper to produce a text transcript.
 
-- A working prototype that converts conversational speech into caption suggestions.
-- A structured method for incorporating emotional inference into caption generation.
-- A clear comparison between transcript-only and structured emotion-guided approaches.
-- Analysis of how emotional structure affects tone, alignment, and perceived authenticity.
+Two caption-generation pipelines will then be implemented. The baseline pipeline generates captions directly from the transcript. The structured pipeline first performs text-based emotional inference that produces a constrained representation containing signals such as primary emotion, conversational intent, and themes. This structured representation is then used to guide caption generation.
 
+The system will be implemented using Python, Streamlit, OpenAI Whisper for speech-to-text transcription, and the GPT-4o-mini API for caption generation. GitHub will be used for version control and iterative development.
 
 
-## 5. How Will I Evaluate the Results?
 
-The system will be evaluated through structured comparison.
+## 4. Expected Results
 
-Using 8–12 short conversational audio clips representing different emotional tones, captions will be generated under two conditions:
+The expected result of this project is a working prototype that can take short conversational audio and generate caption suggestions suitable for social media posts. The system should be able to convert natural speech into captions that capture the main idea of the conversation while preserving its tone.
 
-- **Condition A:** Transcript-only generation.
-- **Condition B:** Structured emotion-guided generation.
+Another expected outcome is a comparison between two caption generation approaches. The first approach generates captions directly from the transcript of the conversation. The second approach uses structured conversational signals such as emotion and intent to guide caption generation.
 
-Two independent graduate-level evaluators will assess the generated captions using a 1–5 rating scale based on:
+Based on the design of the system, it is expected that the structured approach will produce captions that better reflect the emotional tone and meaning of the conversation. These captions may feel more natural and more appropriate for social media compared to captions generated directly from the transcript.
 
-- Relevance to the spoken content  
-- Emotional alignment  
-- Preservation of conversational subtext  
-- Authenticity and suitability as an Instagram caption  
+The evaluation results will help show whether using structured conversational signals improves caption quality in terms of relevance, emotional alignment, and authenticity.
 
-Ratings will be averaged across both approaches to identify consistent differences. The evaluation is exploratory and intended to compare approaches.
 
+
+## 5. Evaluation
+
+To compare the baseline and structured caption generation approaches, a controlled human evaluation is conducted using a dataset of short conversational audio clips.
+
+The dataset consists of 50 conversational audio clips. Each clip is transcribed using the speech-to-text component of the system. For each transcript, two sets of captions are generated: one using the baseline transcript-only approach and one using the structured tone-guided approach.
+
+During evaluation, each evaluator first listens to the original audio clip to understand the context and tone of the conversation. The evaluator then reads the transcript, followed by both caption sets.
+
+To ensure a fair comparison, the captions are presented in a blinded format. For each clip, the two caption sets are labeled as “Set X” and “Set Y,” and their order is randomized. This prevents evaluators from knowing which method produces each caption and reduces potential bias.
+
+Evaluators assess each caption set independently based on four criteria: relevance, emotion alignment, subext and authenticity. Each criteria is scored on scale from 1 to 7 using a defined rubric.
+
+- Relevance
+Refers to the degree to which the caption is related or useful to what is being expressed in the conversation.
+
+1: The caption is unrelated or does not reflect the conversation
+4: The caption partially reflects the main idea
+7: The caption clearly and accurately reflects the main idea of the conversation
+
+- Emotion Alignment
+Measures how well the caption matches the emotional tone of the conversation.
+1: The emotional tone is incorrect or mismatched
+4: The caption partially reflects the emotional tone
+7: The caption strongly matches the emotional tone
+
+- Subtext
+Refers to the hidden or less obvious meaning conveyed by the caption beyond the literal words.
+1: The caption does not capture any implied meaning
+4: The caption captures some implied meaning
+7: The caption effectively reflects underlying meaning or nuance
+
+- Authenticity
+Refers to the quality of the caption being real, natural, and believable in a social media context.
+1: The caption feels unnatural, forced, or artificial
+4: The caption is somewhat natural but not fully convincing
+7: The caption feels natural, genuine, and appropriate
+
+In addition to scoring, evaluators select which caption set (X or Y) they prefer overall. This provides a direct comparison between the two approaches and helps identify which method produces more effective captions in practice.
+
+After evaluation, the collected scores are aggregated to compare the baseline and structured approaches. Since evaluators assess caption sets labeled as X and Y, a mapping is used to convert these labels back to their corresponding methods (baseline or structured).
+
+For each approach, the scores across all clips and evaluators are averaged for each metric (relevance, emotion alignment, subtext, and authenticity). These average scores provide a quantitative comparison of how each method performs across different aspects of caption quality.
+
+In addition to metric averages, preference selections are also aggregated by counting how many times each approach is chosen by evaluators. This provides a direct measure of which method is more often preferred in practice.
+
+The structured approach is considered to perform better if it achieves higher average scores across the evaluation metrics and receives a higher number of preference selections compared to the baseline approach.
