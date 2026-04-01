@@ -26,6 +26,16 @@ Two caption-generation pipelines will then be implemented. The baseline pipeline
 
 The system will be implemented using Python, Streamlit, OpenAI Whisper for speech-to-text transcription, and the GPT-4o-mini API for caption generation. GitHub will be used for version control and iterative development.
 
+3.1 Speech-to-Text Transcription
+
+The first stage of the system converts conversational audio into text using the Whisper model. In this implementation, the “base” variant of the model is used to provide a balance between transcription accuracy and computational efficiency.
+
+Given an input audio file, the system applies Whisper’s transcription function to generate a textual representation of the spoken content. The output of this stage is a plain text transcript, which is then used as the input for caption generation.
+
+A key design decision in this stage is that the same transcript is reused for both the baseline and structured caption generation approaches. This ensures that any differences in generated captions are due to the caption generation method rather than variations in transcription, thereby maintaining consistency in the evaluation.
+
+The use of Whisper is particularly suitable for this project because conversational audio often includes informal speech patterns, pauses, and variations in tone. Whisper is robust to such variations, making it effective for accurately capturing real-world conversational content.
+
 
 
 ## 4. Expected Results
