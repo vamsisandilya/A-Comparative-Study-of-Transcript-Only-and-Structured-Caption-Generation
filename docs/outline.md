@@ -36,6 +36,18 @@ A key design decision in this stage is that the same transcript is reused for bo
 
 The use of Whisper is particularly suitable for this project because conversational audio often includes informal speech patterns, pauses, and variations in tone. Whisper is robust to such variations, making it effective for accurately capturing real-world conversational content.
 
+3.2 Baseline Caption Generation
+
+In the baseline approach, captions are generated directly from the transcript without incorporating any additional conversational or emotional signals. The transcript produced by the speech-to-text component is provided as the sole input to a language model (GPT-based), which generates caption suggestions based only on the textual content.
+
+The system is designed to return exactly two captions for each transcript:
+- one reflective caption (1–3 sentences)
+- one short, punchy caption (1 sentence)
+
+To ensure consistency and improve output quality, the prompt includes specific constraints. The model is instructed to produce concise, natural captions that are directly grounded in the transcript. Generic motivational phrases and clichés are explicitly discouraged to maintain authenticity and relevance to the original conversation.
+
+This baseline method serves as the control condition in the evaluation. Because it relies only on the transcript, it does not explicitly account for emotional tone, conversational intent, or underlying subtext. As a result, while it may capture the main idea of the conversation, it may fail to fully reflect nuanced emotional or contextual aspects of the spoken content.
+
 
 
 ## 4. Expected Results
