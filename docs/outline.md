@@ -48,6 +48,18 @@ To ensure consistency and improve output quality, the prompt includes specific c
 
 This baseline method serves as the control condition in the evaluation. Because it relies only on the transcript, it does not explicitly account for emotional tone, conversational intent, or underlying subtext. As a result, while it may capture the main idea of the conversation, it may fail to fully reflect nuanced emotional or contextual aspects of the spoken content.
 
+3.3 Structured Caption Generation
+
+The structured approach extends the baseline method by introducing an intermediate conversational signal extraction stage before caption generation. Instead of generating captions directly from the transcript, the system first analyzes the transcript to produce a structured representation of tone and meaning.
+
+This representation includes multiple conversational signals such as primary emotion, secondary emotions, intensity, sarcasm likelihood, confidence, intent, themes, and supporting evidence. These signals are generated using a language model in a text-only setting, meaning the analysis relies entirely on the transcript rather than acoustic features.
+
+A central design feature of this approach is the use of a schema-constrained JSON representation. Rather than allowing the model to produce free-form output, the system enforces a predefined schema that specifies required fields, valid data types, and structural constraints. This ensures that every output follows a consistent format across all transcripts.
+The use of a schema provides several important benefits. First, it standardizes the structure of the intermediate representation, allowing the system to process outputs reliably in subsequent stages. Second, it reduces variability in model responses by preventing the use of inconsistent or invented labels. For example, emotions are restricted to a predefined set of allowed categories, and intent labels must belong to a fixed list of conversational intents. Third, it improves comparability across samples, which is essential for evaluation, as all structured outputs follow the same format.
+
+Additional constraints are applied within the schema to further improve consistency. For example, the number of secondary emotions and themes is limited, intensity values are restricted to a bounded range, and sarcasm likelihood is selected from a fixed set of options. These constraints reduce ambiguity and ensure that the structured representation remains compact and interpretable.
+
+Overall, the schema transforms the conversational signal extraction stage into a controlled intermediate representation, making the structured pipeline more reliable and consistent compared to unconstrained text-based analysis.
 
 
 ## 4. Expected Results
