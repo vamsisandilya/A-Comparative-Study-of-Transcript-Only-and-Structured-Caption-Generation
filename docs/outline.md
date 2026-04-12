@@ -20,17 +20,17 @@ The objectives of this project are to (1) implement a system that converts conve
 
 Recent advances in machine learning have made it possible to process conversational audio and generate useful text from it. This project builds on three main areas: speech-to-text transcription, language model-based text generation, and emotion detection from text.
 
-Speech-to-text systems, such as OpenAI’s Whisper, are widely used to convert audio into text. These systems perform well on conversational speech and can handle informal language and different speaking styles. However, they focus on capturing what is said and do not explicitly represent emotional tone or intent.
+Speech-to-text systems, such as OpenAI’s Whisper[1], are widely used to convert audio into text. These systems perform well on conversational speech and can handle informal language and different speaking styles. However, they focus on capturing what is said and do not explicitly represent emotional tone or intent.
 
 Large language models (LLMs) are commonly used for generating text, including captions. In many cases, captions are generated directly from transcripts. While this approach can capture the main idea of a conversation, it relies on the model to infer tone and meaning on its own. As a result, the generated captions may miss emotional nuance or deeper meaning.
 
-There has also been research on detecting emotion and sentiment from text. These methods can identify emotional signals, but they are usually treated as separate tasks and are not directly used to guide text generation. More recent work in prompt design suggests that giving structured information to language models can improve output quality, but this has not been widely explored for conversational caption generation.
+There has also been research on detecting emotion and sentiment from text[2]. These methods can identify emotional signals, but they are usually treated as separate tasks and are not directly used to guide text generation. More recent work in prompt design suggests that giving structured information to language models can improve output quality[3], but its application to conversational caption generation remains limited.
 
 Based on this, there are two main limitations. First, transcript-based caption generation does not explicitly include emotional or conversational signals. Second, emotion detection is often not integrated into the generation process in a structured way.
 
 This project addresses these limitations by incorporating structured conversational signals into caption generation and evaluating their impact through human evaluation.
 
-## 2. Objectives
+## 3. Objectives
 
 The main objective of this project is to design and implement a working prototype that converts short conversational audio clips into caption suggestions suitable for social media. The system will first convert speech into text using a speech recognition model and then generate caption suggestions from the resulting transcript.
 
@@ -152,3 +152,13 @@ For each approach, the scores across all clips and evaluators are averaged for e
 In addition to metric averages, preference selections are also aggregated by counting how many times each approach is chosen by evaluators. This provides a direct measure of which method is more often preferred in practice.
 
 The structured approach is considered to perform better if it achieves higher average scores across the evaluation metrics and receives a higher number of preference selections compared to the baseline approach.
+
+
+
+## References
+
+[1] Alec Radford, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ilya Sutskever. 2022. Robust Speech Recognition via Large-Scale Weak Supervision.
+
+[2] Samira Zad, Maryam Heidari, James H. Jr. Jones, and Ozlem Uzuner. Emotion Detection of Textual Data: An Interdisciplinary Survey.
+
+[3] Pranab Sahoo, Ayush Kumar Singh, Sriparna Saha, Vinija Jain, Samrat Mondal, and Aman Chadha. A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications.
