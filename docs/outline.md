@@ -1,14 +1,19 @@
 # Project Outline  
-## From Conversation to Instagram Captions
+## From Conversation to Captions
 
 
 ## 1. Introduction
 
-In this project, I investigate how to design and build a system that converts short conversational audio into Instagram-style captions while preserving emotional tone and conversational meaning. Informal conversations often contain reflections or insights that could be shared as social media content, but transforming these spoken ideas into written captions typically requires additional effort.
+In this project, I investigate how to design and build a system that converts short conversational audio into captions while preserving emotional tone and conversational meaning. Informal conversations often contain reflections or insights that could be shared as social media content, but transforming these spoken ideas into written captions typically requires additional effort. However, transcript-only approaches may fail to capture emotional tone, intent, and underlying conversational meaning, which can lead to captions that do not fully reflect the original conversation.
 
-This project explores whether incorporating structured emotional inference into caption generation improves the relevance and authenticity of generated captions compared to a transcript-only approach.
+Research Question:
+How can an audio transcript generator using captured emotions, intent, and themes improve AI-generated captions?
 
+This question focuses on whether incorporating structured conversational signals—specifically emotion, intent, and themes—provides additional context that improves caption generation compared to relying on transcript-only input. The goal is to evaluate whether these signals lead to captions that better reflect the tone and meaning of the original conversation, as measured through human evaluation across relevance, emotion alignment, subtext, and authenticity, as well as overall preference.
 
+To answer this question, the project compares a baseline transcript-only approach with a structured tone-guided approach using human evaluation across relevance, emotion alignment, subtext, and authenticity.
+
+The objectives of this project are to (1) implement a system that converts conversational audio into captions, (2) incorporate structured conversational signals into caption generation, and (3) evaluate the impact of these signals through a controlled human study.
 
 ## 2. Objectives
 
