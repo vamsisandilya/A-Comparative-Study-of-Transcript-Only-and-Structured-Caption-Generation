@@ -15,6 +15,21 @@ To answer this question, the project compares a baseline transcript-only approac
 
 The objectives of this project are to (1) implement a system that converts conversational audio into captions, (2) incorporate structured conversational signals into caption generation, and (3) evaluate the impact of these signals through a controlled human study.
 
+
+## 2. Background
+
+Recent advances in machine learning have made it possible to process conversational audio and generate useful text from it. This project builds on three main areas: speech-to-text transcription, language model-based text generation, and emotion detection from text.
+
+Speech-to-text systems, such as OpenAI’s Whisper, are widely used to convert audio into text. These systems perform well on conversational speech and can handle informal language and different speaking styles. However, they focus on capturing what is said and do not explicitly represent emotional tone or intent.
+
+Large language models (LLMs) are commonly used for generating text, including captions. In many cases, captions are generated directly from transcripts. While this approach can capture the main idea of a conversation, it relies on the model to infer tone and meaning on its own. As a result, the generated captions may miss emotional nuance or deeper meaning.
+
+There has also been research on detecting emotion and sentiment from text. These methods can identify emotional signals, but they are usually treated as separate tasks and are not directly used to guide text generation. More recent work in prompt design suggests that giving structured information to language models can improve output quality, but this has not been widely explored for conversational caption generation.
+
+Based on this, there are two main limitations. First, transcript-based caption generation does not explicitly include emotional or conversational signals. Second, emotion detection is often not integrated into the generation process in a structured way.
+
+This project addresses these limitations by incorporating structured conversational signals into caption generation and evaluating their impact through human evaluation.
+
 ## 2. Objectives
 
 The main objective of this project is to design and implement a working prototype that converts short conversational audio clips into caption suggestions suitable for social media. The system will first convert speech into text using a speech recognition model and then generate caption suggestions from the resulting transcript.
