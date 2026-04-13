@@ -40,11 +40,15 @@ A second objective is to incorporate a structured emotional inference layer that
 
 ## 3. Approach
 
-The project will be developed using a modular pipeline that transforms conversational audio into captions. A Streamlit interface will allow users to upload short audio clips. These clips will be transcribed using OpenAI Whisper to produce a text transcript.
+The project is developed using a modular pipeline that transforms conversational audio into captions. A Streamlit interface allows users to upload short audio clips. These clips are transcribed using OpenAI Whisper to produce a text transcript.
 
-Two caption-generation pipelines will then be implemented. The baseline pipeline generates captions directly from the transcript. The structured pipeline first performs text-based emotional inference that produces a constrained representation containing signals such as primary emotion, conversational intent, and themes. This structured representation is then used to guide caption generation.
+Two caption-generation pipelines are used. The baseline pipeline generates captions directly from the transcript. The structured pipeline first performs text-based emotional inference that produces a constrained representation containing signals such as primary emotion, conversational intent, and themes. This structured representation is then used to guide caption generation.
 
-The system will be implemented using Python, Streamlit, OpenAI Whisper for speech-to-text transcription, and the GPT-4o-mini API for caption generation. GitHub will be used for version control and iterative development.
+The system is implemented using Python due to its strong support for machine learning and natural language processing libraries. Streamlit is used to provide a simple interface for uploading and testing audio inputs. OpenAI Whisper is selected for transcription due to its robustness to conversational speech, and the GPT-4o-mini model is used for caption generation to provide consistent and controlled outputs.
+
+The evaluation uses a dataset of 50 short conversational audio clips collected from youtube. The clips are approximately one minute in length and include conversational and reflective speech. Each audio clip is transcribed once and reused across both baseline and structured caption generation approaches to ensure consistency during evaluation.
+
+This design allows a direct comparison between transcript-only and structured approaches, enabling the evaluation of whether incorporating conversational signals improves caption quality.
 
 3.1 Speech-to-Text Transcription
 
@@ -75,6 +79,7 @@ The structured approach extends the baseline method by introducing an intermedia
 This representation includes multiple conversational signals such as primary emotion, secondary emotions, intensity, sarcasm likelihood, confidence, intent, themes, and supporting evidence. These signals are generated using a language model in a text-only setting, meaning the analysis relies entirely on the transcript rather than acoustic features.
 
 A central design feature of this approach is the use of a schema-constrained JSON representation. Rather than allowing the model to produce free-form output, the system enforces a predefined schema that specifies required fields, valid data types, and structural constraints. This ensures that every output follows a consistent format across all transcripts.
+
 The use of a schema provides several important benefits. First, it standardizes the structure of the intermediate representation, allowing the system to process outputs reliably in subsequent stages. Second, it reduces variability in model responses by preventing the use of inconsistent or invented labels. For example, emotions are restricted to a predefined set of allowed categories, and intent labels must belong to a fixed list of conversational intents. Third, it improves comparability across samples, which is essential for evaluation, as all structured outputs follow the same format.
 
 Additional constraints are applied within the schema to further improve consistency. For example, the number of secondary emotions and themes is limited, intensity values are restricted to a bounded range, and sarcasm likelihood is selected from a fixed set of options. These constraints reduce ambiguity and ensure that the structured representation remains compact and interpretable.
