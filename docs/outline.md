@@ -1,5 +1,5 @@
 # Project Outline  
-## From Conversation to Captions
+## From Conversation to Captions: A Structured Tone-Guided Approach to Caption Generation
 
 
 ## 1. Introduction
@@ -38,7 +38,7 @@ A second objective is to incorporate a structured emotional inference layer that
 
 
 
-## 3. Approach
+## 4. Approach
 
 The project is developed using a modular pipeline that transforms conversational audio into captions. A Streamlit interface allows users to upload short audio clips. These clips are transcribed using OpenAI Whisper to produce a text transcript.
 
@@ -99,7 +99,7 @@ A fixed and low temperature setting is used during generation to ensure stable a
 
 By combining schema-constrained extraction, validation, and tone-guided generation, the structured pipeline introduces a controlled mechanism for incorporating conversational signals into caption generation. This design aims to produce captions that better reflect emotional tone, contextual meaning, and underlying subtext compared to transcript-only methods.
 
-## 4. Expected Results
+## 5. Expected Results
 
 The expected result of this project is a working prototype that can take short conversational audio and generate caption suggestions suitable for social media posts. The system should be able to convert natural speech into captions that capture the main idea of the conversation while preserving its tone.
 
@@ -110,8 +110,24 @@ Based on the design of the system, it is expected that the structured approach w
 The evaluation results will help show whether using structured conversational signals improves caption quality in terms of relevance, emotional alignment, and authenticity.
 
 
+## 6. Results
 
-## 5. Evaluation
+Table 1: Average Evaluation Scores
+
+Metric              Baseline    Structured
+---------------------------------------------
+Relevance                    5.124       5.160
+Emotion Alignment            5.028       5.740
+Subtext                      4.632       4.716
+Authenticity                 4.720       4.744
+
+As shown in Table 1, the structured approach achieves higher average scores across all four evaluation metrics. The largest difference is observed in emotion alignment, where the structured method scores 5.740 compared to 5.028 for the baseline approach. Smaller differences are observed in subtext and relevance, while authenticity scores remain similar between the two approaches.
+
+In addition to metric-based evaluation, preference selections are aggregated to compare the two approaches. Out of 250 total comparisons, the structured approach is preferred in 162 cases, while the baseline approach is preferred in 88 cases.
+
+These results provide quantitative evidence for comparing transcript-only and structured caption generation approaches across multiple dimensions of caption quality.
+
+## 7. Evaluation
 
 To compare the baseline and structured caption generation approaches, a controlled human evaluation is conducted using a dataset of short conversational audio clips.
 
