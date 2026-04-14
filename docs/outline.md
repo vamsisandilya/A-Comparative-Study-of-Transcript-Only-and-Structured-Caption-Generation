@@ -175,8 +175,23 @@ In addition to metric averages, preference selections are also aggregated by cou
 The structured approach is considered to perform better if it achieves higher average scores across the evaluation metrics and receives a higher number of preference selections compared to the baseline approach.
 
 
+## 8. Discussion
 
-## References
+The results show that incorporating structured conversational signals improves caption generation primarily in terms of emotional alignment. The structured approach produces captions that better reflect the tone of the original conversation compared to the transcript-only baseline.
+
+However, improvements in relevance, subtext, and authenticity are minimal, suggesting that transcript-only input is already sufficient for capturing the main content. The preference results indicate that users tend to favor structured captions, likely due to improved emotional representation.
+
+Overall, the research question is partially answered. Structured signals improve captions, but the impact is mainly limited to emotional alignment. A limitation of this work is that the approach relies only on text-based signals and does not use acoustic features from audio.
+
+## 9. Conclusion
+
+This project studies how adding structured signals such as emotion, intent, and themes can improve AI-generated captions from conversational audio. A system was built to generate captions using two approaches: a transcript-only baseline and a structured tone-guided method.
+
+The results show that the structured approach improves captions mainly in terms of emotional alignment, while changes in relevance, subtext, and authenticity are small. Evaluators also preferred structured captions more often. This suggests that structured signals help capture the tone of a conversation, but their overall impact is limited to certain aspects.
+
+Future work can explore using audio features such as tone and pitch, and testing the approach on larger and more diverse datasets.
+
+## 10. References
 
 [1] Alec Radford, Jong Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and Ilya Sutskever. 2022. Robust Speech Recognition via Large-Scale Weak Supervision.
 
