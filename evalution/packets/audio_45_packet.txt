@@ -1,0 +1,12 @@
+CLIP: audio_45
+
+TRANSCRIPT:
+I've never been the same since my brother died. There's a melancholy in me that never goes away. I'm 50% happy and 50% sad at any given moment. And the only advice I can give people for when you lose someone like that is you won't ever get over it. And the more you know that and embrace it, the better off you are. I don't wanna forget my brother. And I don't wanna forget what it felt like when he died because he deserves it. That's how important he was to me. So if I have to suffer and if I have to be sad for the rest of my life and if I have to be lonely without him, without his particular thing, his sense of humor and what he brought to life, then that's the way I honor him.
+
+SET X:
+Caption 1: Losing my brother changed everything. I carry a bittersweet mix of joy and sorrow, knowing that embracing this pain is my way of keeping his memory alive. He deserves to be remembered, even in the sadness.
+Caption 2: Some losses never fade; they just become part of who you are.
+
+SET Y:
+Caption 1: Caption 1: The weight of loss is a constant companion. Embracing both the sadness and joy keeps my brother’s memory alive. It's not about moving on; it’s about holding on to what he meant to me.
+Caption 2: Caption 2: Loving someone means carrying their memory, even in the heaviness.

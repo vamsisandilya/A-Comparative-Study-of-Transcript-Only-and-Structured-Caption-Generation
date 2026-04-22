@@ -1,0 +1,12 @@
+CLIP: audio_43
+
+TRANSCRIPT:
+If I had only 60 seconds to reach the whole world, all I would say is, your future self is begging you to stop wasting time. Every excuse, every delay is stealing the life that you could have had. Just imagine looking back one year from now and wondering why you didn't start today. I've been there waiting for motivation, thinking I'd start when the time was right, but I learned something. The right time doesn't exist. You don't wait for motivation. You build discipline. So the biggest mistake here is waiting until you feel ready. Motivation is fleeting, but action, no matter how small, will build momentum. And that's how change begins. So here's what you do. Just pick one habit and stick to it. Stop doing so many things at the same time and don't aim for perfection, just aim to show up. Build trust of yourself and the results will follow. I promise you that.
+
+SET X:
+Caption 1: Every moment spent waiting for the "right time" is a moment lost. Your future self is counting on you to take action today, even if it’s just one small habit. Change doesn’t wait for motivation; it starts with discipline.
+Caption 2: Stop waiting for motivation—start building discipline!
+
+SET Y:
+Caption 1: Caption 1:
+Caption 2: Reflecting on how often we wait for the perfect moment to start. The truth is, there’s no perfect time—just action. One small step today can change everything tomorrow.

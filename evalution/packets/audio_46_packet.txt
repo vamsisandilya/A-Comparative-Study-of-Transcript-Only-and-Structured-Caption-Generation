@@ -1,0 +1,12 @@
+CLIP: audio_46
+
+TRANSCRIPT:
+just you know how to exist when life is just life. I tell my girls the greatest gift that they can have, develop for themselves as the ability to be self-sat, to be happy where you are with every that is. To learn how to be like, this is not exciting. I'm not winning. I'm not losing. I'm not achieving. I'm not, it's not a party. I don't have friends around every day. It's like most of life is just the nothing in the middle. Yes. I think this generation, they don't want that nothing in the middle. When things are just bland, which is most of life is just ordinary. You got to learn how to be happy alone. You got to be happy a little bored. You got to be happy when things are hard. You got to learn how to be satisfied when you failed. Yes. And things don't go your way because all of that keeps you getting up. But I think there are a lot of young people who are searching for this impossible feeling of continuous happiness.
+
+SET X:
+Caption 1: Life often feels ordinary, and that's okay. Finding contentment in the quiet moments, even when things aren’t exciting, is a valuable skill—one I hope my girls embrace as they grow.
+Caption 2: Happiness isn’t always a party; sometimes, it’s about being okay with the everyday.
+
+SET Y:
+Caption 1: Finding joy in the ordinary can feel like a lost art. It’s about embracing the quiet moments and learning to be content, even when life isn’t a highlight reel. So many are chasing that elusive, constant happiness, but maybe the real gift is in the simplicity of just being.
+Caption 2: Happiness isn’t always a party; sometimes it’s just learning to be okay with the quiet.

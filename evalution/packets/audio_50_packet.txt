@@ -1,0 +1,12 @@
+CLIP: audio_50
+
+TRANSCRIPT:
+You can't lie to yourself, you know when you stayed late and other people weren't there. You know when you showed up early and other people weren't there. You know when you gave 100% in training day in day out for months, for months. And so it's not about, you know, at the last second I tell myself, I'd chipper a little line and call it a day. It's the fact that I look back on quite literally years, like decade of hard work, of pouring my heart and soul into this sport. And so it's, yeah, it's trusting myself, but it's building that trust every day.
+
+SET X:
+Caption 1: Caption 1: Reflection isn’t just about the moments everyone sees; it’s the quiet hours of hard work that build self-trust. Every early morning and late night shapes who I am.
+Caption 2: Caption 2: Trust isn’t built in a second; it’s earned day by day.
+
+SET Y:
+Caption 1: Reflecting on the countless hours spent training, I realize that trust in myself is built through consistency and dedication. Every early morning and late night adds to that foundation, reminding me that hard work truly pays off.
+Caption 2: Trust is earned, not given—one training session at a time.
