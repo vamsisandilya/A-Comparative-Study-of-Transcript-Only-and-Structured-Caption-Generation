@@ -1,0 +1,12 @@
+CLIP: audio_36
+
+TRANSCRIPT:
+My grandma says there are only two things in life that you worry about. Whether you're healthy or whether you're sick. If you're healthy, you're going to know where to go. But if you're sick, you've got two things to worry about. What are you going to get better? What are you going to get worse? You get better? You're going to know where to go. But if you get worse, you've got two things to worry about. Whether you're going to live, whether you're going to die. If you live, you ain't got nothing to worry about. But if you die, you've got two things. Whether you're going to heaven, whether you're going to hell. If you go to heaven, you ain't got nothing to worry about. But if you go to hell, you've got two things. I'll original exit crispy.
+
+SET X:
+Caption 1: My grandma has a way of cutting through the noise. Life’s worries seem to boil down to health and the unknowns that come with it. It’s a simple yet profound perspective that keeps things grounded.
+Caption 2: At the end of the day, it’s all about health and the big questions.
+
+SET Y:
+Caption 1: Life's worries can feel like a never-ending cycle. My grandma's wisdom reminds me that whether we're healthy or sick, the questions never really stop. It's a heavy thought, but it keeps me grounded.
+Caption 2: Health or sickness—it's all about the questions we face.

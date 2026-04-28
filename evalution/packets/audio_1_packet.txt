@@ -1,0 +1,12 @@
+CLIP: audio_1
+
+TRANSCRIPT:
+Okay, so I've been thinking a lot about how random connoissee sometimes have the best ideas. Like you're not even trying to be productive, you're just talking and suddenly something meaningful comes out. And then later you forget it. That happens to me all the time. I'll say something insightful or at least I think it's insightful in the moment and then it just disappears. I also feel like sometimes we are over think posting on social media. Like we want the perfect caption, the perfect tone and the perfect vibe. But most of the time the real thoughts are already there in our everyday connoisseeations. I wonder if capturing those raw thoughts is actually more authentic than trying to craft something polished from scratch. There's something powerful about unfiltered ideas. They feel more human. Maybe we don't need better ideas, maybe we just need a better way to capture them before they vanish.
+
+SET X:
+Caption 1: Caption 1:
+Caption 2: Sometimes the best ideas surface when you’re just chatting, without the pressure of being profound. It’s funny how the most meaningful thoughts slip away if you don’t catch them in the moment. Maybe it’s time to embrace the raw, unfiltered conversations instead of polishing what we say.
+
+SET Y:
+Caption 1: Sometimes the best ideas emerge from casual conversations, slipping away before we can even grasp them. Maybe it’s time to embrace the raw, unfiltered thoughts instead of chasing perfection in our posts.
+Caption 2: Real thoughts are often the ones we forget—let’s start capturing the chaos!

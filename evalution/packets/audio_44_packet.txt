@@ -1,0 +1,12 @@
+CLIP: audio_44
+
+TRANSCRIPT:
+You know what hurts the most when you step back and start seeing everything clearly without lies, without illusions? You realize that some people never really loved you. They didn't love you, not in the way you thought, not in the way you wanted, not in the way you truly deserved. They don't love you. They love the benefits your presence gives them. They love how you forget yourself for them, how you put them first, how you make them feel important. They love your attention because it feeds their ego, but in return they give you nothing. And the truth is deep inside you always knew it. You felt it in their silence, in their distance, in their indifference.
+
+SET X:
+Caption 1: Sometimes, stepping back reveals the harsh truth: not everyone who claims to love you truly does. It’s a painful realization that some only value what you bring to their lives, not you as a person.
+Caption 2: Love shouldn’t feel like a one-way street.
+
+SET Y:
+Caption 1: Stepping back can be painful. It's a rude awakening to realize some people never really loved you—they just appreciated what you brought to their lives. The silence and distance spoke volumes, and finally seeing the truth is a bittersweet release.
+Caption 2: Sometimes love is just a one-sided conversation.

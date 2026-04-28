@@ -1,0 +1,12 @@
+CLIP: audio_3
+
+TRANSCRIPT:
+Fail big. That's right. Fail big. You only live once. So do what you feel passionate about. Passionate about. Take chances professionally. Don't be afraid to fail. This is an OIQ test was nine dots and you had to draw five lines with the pencil within these nine dots without lifting the pencil. The only way to do it was to go outside the box. So don't be afraid to go outside the box. Don't be afraid to think outside the box. Don't be afraid to fail big. To dream big.
+
+SET X:
+Caption 1: Failure is just a stepping stone to something greater. Embrace what excites you and don’t shy away from breaking the mold. The outside of the box holds the possibilities.
+Caption 2: Think outside the box—big fails lead to bigger wins!
+
+SET Y:
+Caption 1: Embracing failure is just part of the journey. It’s about pushing boundaries and daring to dream big. Let’s step outside the box and chase what truly ignites our passion.
+Caption 2: Fail big, dream bigger! ✨
