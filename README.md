@@ -1,143 +1,260 @@
-# From Conversation to Instagram Captions  
+# A Comparative Study of Transcript-Only and Structured Signal-Based Caption Generation
 
-**Master’s Project
+## Master’s Project – University of New Hampshire
 
 ## Project Overview
 
-This project investigates whether adding structured conversational metadata improves the quality of AI-generated Instagram-style captions.
+This project investigates whether explicitly modeled conversational signals improve emotionally aligned AI-generated captions derived from spoken conversation transcripts.
 
-The system converts short conversational audio into captions using two experimental conditions:
+The system converts short conversational audio clips into Instagram-style captions using two experimental conditions:
 
-- **Condition A (Baseline)** – Transcript-only caption generation  
-- **Condition B (Structured)** – Transcript + structured conversational signal metadata  
+### Condition A — Baseline (Transcript-Only)
+Captions are generated directly from the transcript using a language model.
 
-The research goal is to evaluate whether structured tone guidance improves:
+### Condition B — Structured Signal-Based Generation
+Captions are generated using the transcript along with structured conversational metadata extracted from the conversation.
 
-- Relevance  
-- Emotional alignment  
-- Subtext preservation  
-- Perceived authenticity  
+The project evaluates whether structured conversational guidance improves:
 
-This is a controlled academic prototype. It is not intended for production use.
+- Relevance
+- Emotional alignment
+- Subtext preservation
+- Perceived authenticity
 
+This work is designed as an academic comparative study focused on structured conversational guidance for caption generation.
 
-## Research Motivation
+---
 
-Conversational speech contains emotional nuance and implicit meaning that may not be fully captured through raw transcript text alone.
+# Research Question
 
-This project introduces a **Level 1 structured intermediate representation**, extracted from transcript text only:
+> How can an audio transcript generator using captured emotions, intent, and themes improve AI-generated captions?
 
-- Primary emotion  
-- Secondary emotions (0–3)  
-- Emotional intensity (0–3)  
-- Sarcasm likelihood  
-- Communicative intent  
-- Themes (short noun phrases)  
-- Evidence quote (grounded in transcript)  
-- Confidence score  
+---
 
-The hypothesis is that explicitly conditioning generation on structured signals may produce captions that better align with emotional subtext.
+# Research Motivation
 
+Conversational speech contains emotional nuance, implied meaning, and communicative intent that may not be fully represented through transcript text alone.
 
-## System Architecture
+Traditional transcript-only generation approaches rely on the language model to infer conversational tone implicitly. However, conversational subtext and emotional context may be inconsistently interpreted during generation.
 
-### 1️⃣ Audio Input
-- User uploads short conversational audio (~60 seconds)
-- Implemented using Streamlit interface
+This project introduces a structured intermediate representation that explicitly models conversational signals extracted from transcript text. The hypothesis is that providing structured conversational guidance may improve emotional consistency and alignment in generated captions.
 
-### 2️⃣ Speech-to-Text
-- OpenAI Whisper (local model)
-- Converts audio → transcript
+The structured representation includes:
 
-### 3️⃣ Structured Inference (Text-Only)
-- GPT-4o-mini
-- Constrained JSON schema output
-- Conservative inference (no over-speculation)
-- No prosodic features (Level 2 reserved for future work)
+- Primary emotion
+- Secondary emotions (0–3)
+- Emotional intensity (0–3)
+- Sarcasm likelihood
+- Communicative intent
+- Themes
+- Evidence quote grounded in transcript
+- Confidence score
 
-### 4️⃣ Caption Generation
+---
 
-**Condition A – Baseline**
+# System Architecture
+
+The system follows a two-branch comparative pipeline.
+
+## 1. Audio Input
+
+Users upload short conversational audio clips (~60 seconds) through a Streamlit interface.
+
+---
+
+## 2. Speech-to-Text Conversion
+
+The uploaded audio is transcribed using OpenAI Whisper (local model).
+
+### Input
+Audio clip
+
+### Output
+Transcript text
+
+---
+
+## 3. Structured Conversational Signal Extraction
+
+The structured branch performs conversational signal inference using GPT-4o-mini.
+
+The system extracts:
+
+- Emotions
+- Intent
+- Themes
+- Emotional intensity
+- Sarcasm likelihood
+- Supporting evidence
+
+The extraction process uses schema-constrained JSON generation to enforce a consistent structured format.
+
+---
+
+## 4. Validation and Sanitization
+
+After structured extraction, the system validates and sanitizes all generated fields.
+
+This stage:
+
+- Enforces valid value ranges
+- Restricts outputs to allowed categories
+- Removes malformed or unsupported values
+- Improves reliability of downstream generation
+
+This step ensures that structurally correct outputs also contain valid and usable conversational metadata.
+
+---
+
+## 5. Tone Block Construction
+
+The validated structured metadata is converted into a readable tone block representation.
+
+This tone block acts as an explicit conditioning input for caption generation.
+
+---
+
+## 6. Caption Generation
+
+### Baseline Condition
 
 Transcript → Caption Generator
 
-**Condition B – Structured**
+### Structured Condition
 
-Transcript → Structured Tone Extraction → Caption Generator
+Transcript → Structured Signal Extraction → Tone Block → Caption Generator
 
-Each condition returns:
+Each condition produces:
 
-- Caption 1: Reflective (1–3 sentences)
-- Caption 2: Short/punchy (1 sentence)
+### Caption 1
+Reflective caption (1–3 sentences)
 
-### 5️⃣ UI Output
+### Caption 2
+Short/punchy caption (1 sentence)
+
+The baseline approach relies on implicit conversational inference, while the structured approach explicitly guides generation using extracted conversational signals.
+
+---
+
+## 7. User Interface
 
 The Streamlit interface displays:
 
-- Transcript  
-- Baseline captions  
-- Structured captions (side-by-side comparison)
+- Transcript
+- Baseline captions
+- Structured captions
+- Side-by-side comparison outputs
 
+---
 
-## Technical Stack
+# Technical Stack
 
-- Python  
-- Streamlit  
-- OpenAI Whisper (local)  
-- OpenAI GPT-4o-mini  
-- JSON Schema-constrained outputs  
-- python-dotenv  
-- GitHub for version control  
+## Languages and Frameworks
 
-## Evaluation Plan
+- Python
+- Streamlit
 
-- 8–12 short conversational clips  
-- Two independent graduate-level evaluators  
-- 1–5 rating scale  
-- Evaluation criteria:
-  - Relevance  
-  - Emotional alignment  
-  - Subtext preservation  
-  - Authenticity  
+## AI Models
 
-This is an exploratory comparison rather than a large statistical study.
+- OpenAI Whisper (local STT)
+- OpenAI GPT-4o-mini
 
+## Supporting Components
 
-## ▶️ How to Run
+- JSON schema-constrained outputs
+- python-dotenv
+- GitHub for version control
 
-### 1. Create Virtual Environment
+---
 
-```bash
-python -m venv venv
-source venv/bin/activate
-```
+# Evaluation Methodology
 
-### 2. Install Dependencies
+## Dataset
 
-```bash
-pip install -r requirements.txt
-```
+- 50 conversational audio clips
+- Approximately 1 minute per clip
 
-### 3. Set OpenAI API Key
+## Evaluators
 
-Create a `.env` file in the project root:
+- 5 human evaluators
 
-```
-OPENAI_API_KEY=your_api_key_here
-```
+## Evaluation Process
 
-### 4. Run the App
+Each evaluator:
 
-```bash
-streamlit run src/app.py
-```
+1. Listens to the audio clip
+2. Reads the transcript
+3. Reviews two blinded caption sets (X and Y)
+4. Scores both outputs independently
+5. Selects preferred caption set
 
-## Future Work (Review Cycle 2+)
+The baseline and structured outputs were randomized as X/Y to reduce evaluator bias.
 
-- Refine structured inference clarity  
-- Add conversational pattern classification  
-- Explore Level 2 prosodic emotional signals  
-- Expand evaluation methodology  
-- Formalize results documentation  
+---
 
+# Evaluation Metrics
 
+Captions were evaluated using a 1–7 scoring rubric across four dimensions:
+
+| Metric | Description |
+| Relevance | Alignment with transcript content |
+| Emotion Alignment | Consistency with conversational emotion |
+| Subtext | Preservation of implied meaning |
+| Authenticity | Natural and believable caption quality |
+
+---
+
+# Results Summary
+
+The structured signal-based approach showed moderate but consistent improvements over the transcript-only baseline.
+
+## Average Scores
+
+| Metric            | Baseline | Structured |
+| Relevance         | 5.124    | 5.160      |
+| Emotion Alignment | 5.028    | 5.740      |
+| Subtext           | 4.632    | 4.716      |
+| Authenticity      | 4.720    | 4.744      |
+
+## Preference Results
+
+| Condition  | Preference Percentage |
+| Baseline   | 35.2%                 |
+| Structured | 64.8%                 |
+
+The largest improvement was observed in emotional alignment, suggesting that explicit conversational signal modeling helps guide generation toward emotionally consistent captions.
+
+---
+
+# Key Contributions
+
+This project contributes:
+
+- A comparative framework for transcript-only vs structured caption generation
+- A structured conversational signal extraction pipeline
+- Schema-constrained conversational metadata generation
+- Validation and sanitization for reliable structured inference
+- Human-centered evaluation methodology for emotionally aligned caption generation
+
+---
+
+# Repository Structure
+
+```text
+src/
+├── app.py
+├── stt.py
+├── captions_base.py
+├── captions_emotion.py
+├── eval/
+│   ├── run_evaluation.py
+│   └── aggregate_scores.py
+
+data/
+├── eval_outputs/
+│   ├── baseline/
+│   ├── structured/
+│   ├── transcripts/
+│   ├── packets/
+│   ├── scores.csv
+│   └── xy_mapping.csv
