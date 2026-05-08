@@ -167,6 +167,93 @@ The Streamlit interface displays:
 
 ---
 
+# How to Run
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/master-projects-theses/2026-Spring-Adipudi-Vamsi.git
+cd 2026-Spring-Adipudi-Vamsi
+```
+
+## 2. Create a Virtual Environment
+
+### macOS / Linux
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### Windows
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+## 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## 4. Configure Environment Variables
+
+Create a `.env` file in the project root directory.
+
+```env
+OPENAI_API_KEY=your_api_key_here
+```
+
+## 5. Run the Streamlit Application
+
+```bash
+streamlit run src/app.py
+```
+
+After running the command, the Streamlit application will open in the browser.
+
+The application allows users to:
+
+- Upload a short conversational audio clip
+- Generate a transcript using Whisper
+- Generate transcript-only baseline captions
+- Generate structured signal-based captions
+- Compare both caption outputs side by side
+
+---
+
+# Evaluation Commands
+
+## Run Evaluation Pipeline
+
+```bash
+python3 -m src.eval.run_evaluation
+```
+
+This command generates:
+
+- Transcripts
+- Baseline captions
+- Structured captions
+- Evaluator packets
+- Randomized X/Y mappings
+
+## Aggregate Evaluation Results
+
+```bash
+python3 -m src.eval.aggregate_scores
+```
+
+This command computes:
+
+- Average scores for each evaluation metric
+- Evaluator preference counts
+- Baseline vs structured comparison results
+
+---
+
 # Evaluation Methodology
 
 ## Dataset
