@@ -1,0 +1,12 @@
+CLIP: audio_24
+
+TRANSCRIPT:
+Sex isn't love. Dating isn't love. Talking every hour of every day isn't love. Staying up all night with someone isn't love. None of that proves anything. Love is someone seeing you at your absolute lowest and loving you exactly the same. It's someone stepping up for you when you don't have the strength to stand. It's someone holding you close and calming you down while you're falling apart in their arms. It's someone reminding you of everything good about you when all you can see are your flaws. It's someone praying for you, checking on you, feeling you. Even when you don't say a word, it's loyalty when you're not around. Respect behind your back, choosing you in rooms full of options. It's someone cutting off anything that threatens your peace or makes you uncomfortable. It's someone who can pull a smile out of you on your worst days. Someone who stays. Someone who chooses you every single day. That's what real love looks like. And if you ever find something like that, don't take it for granted. Don't play with it. Because that kind of love is rare.
+
+SET X:
+Caption 1: Real love isn’t about grand gestures or constant communication; it’s about unwavering support during the toughest times. It’s the quiet moments of loyalty and respect that truly define a bond. Cherish that kind of love—it’s a rare treasure.
+Caption 2: Real love shows up when it matters most—don’t take it for granted. 💖
+
+SET Y:
+Caption 1: Caption 1: Real love isn’t about the flashy moments or constant communication; it’s in the quiet, unwavering support during the chaos. Finding someone who lifts you when you’re down and sees the best in you—even when you can’t—is rare. Cherish that.
+Caption 2: Caption 2: Love shows up in the tough moments; it’s the everyday choice to stand by each other.

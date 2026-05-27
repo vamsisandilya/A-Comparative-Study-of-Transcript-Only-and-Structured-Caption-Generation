@@ -1,0 +1,12 @@
+CLIP: audio_42
+
+TRANSCRIPT:
+Just give me under a minute and I'll delete your fear of rejection. Pay attention. Rejection isn't failure. It's proof you had the courage to try. It's not the opposite of success. It's the price you pay to become a better version of yourself. You don't get chosen without first getting overlooked. Every no brings you one step closer to a yes. You get rejected. You readjust. You rise. That's not rejection. That's redirection. Towards something better. You need to get this. Fear stands for false evidence appearing real. Stop being afraid of something that's not happened yet. If rejection scares you, staying stuck should terrify you. You've never gotten better when things were easy. Because comfort never changed anywhere. But the courage to show up, that's where transformation starts.
+
+SET X:
+Caption 1: Every no you face carves a path to something greater. Embracing rejection is where real growth lies—proof that you dared to put yourself out there.
+Caption 2: Rejection isn’t failure; it’s your signpost redirecting you to something better.
+
+SET Y:
+Caption 1: Caption 1: Embracing rejection is a step toward growth. Each "no" is just a redirection, guiding us closer to our true potential. Let’s not fear the fall; let’s celebrate the courage to rise.
+Caption 2: Caption 2: Fear of rejection? Try fear of staying stuck instead.

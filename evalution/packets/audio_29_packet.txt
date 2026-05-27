@@ -1,0 +1,12 @@
+CLIP: audio_29
+
+TRANSCRIPT:
+A lot of people out there who struggle with depression or even subclinical depression where they don't necessarily have a diagnosis will struggle to pull themselves out of it. They'll analyze their situation and they'll recognize, okay, I need to do this or I need to do this, but they can't seem to, despite all the logic, bring themselves out of it. And on the flip side, we also have something incredibly scary, which is that sometimes when people are really, really depressed or even things like suicidal, they're actually really logical about it. And this is what's really challenging is if you try to talk to these people, you'll oftentimes find that their logic is actually really sound. And even in the cases when it's not really sound, you can try to convince them otherwise, but it seems like you sometimes hit a brick wall. And if you're struggling in this way, you may have noticed that you may try to argue against yourself, but your mind always comes to the same conclusion.
+
+SET X:
+Caption 1: It’s unsettling how logic can feel so clear when you’re in the depths of depression, yet it leads you to such dark places. Sometimes, the struggle to pull yourself out feels like fighting against your own mind.
+Caption 2: When logic turns dark, it’s hard to see the light.
+
+SET Y:
+Caption 1: Caption 1: It’s tough when the mind feels like a maze, even when you see the way out. You can acknowledge your feelings and still feel trapped by them. Sometimes, logic just doesn’t cut through the darkness.
+Caption 2: Caption 2: When your mind turns logic into a dead end, it’s a whole different battle.

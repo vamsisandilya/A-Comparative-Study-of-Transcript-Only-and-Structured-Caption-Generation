@@ -1,0 +1,12 @@
+CLIP: audio_16
+
+TRANSCRIPT:
+The most constricting factor for your potential is the fear of people's opinions. So you call fobo. Fobo. This is from your book. It's a hidden epidemic. Our concern with what other people think about us has become irrational, unproductive, and unhealthy obsession. An unhealthy person does not care about what people think. That's a sociopath, that's a narcissist. So I would never advocate to not care. I would advocate, and that's really what the research in the book was, is how to worry less or to not worry at all. So it's the worrying that's the culprit. The caring is actually important.
+
+SET X:
+Caption 1: It's wild how the fear of others' opinions can hold us back. We care, and that's human, but when that worry spirals into obsession, it becomes a hidden epidemic. Let's focus on worrying less and living more.
+Caption 2: Don’t let the fear of judgment cage your potential—worry less, care more.
+
+SET Y:
+Caption 1: Sometimes, the biggest barrier isn’t our abilities, but our fear of judgment. It’s crazy how much we let opinions shape our choices—finding that balance between caring and overthinking is key.
+Caption 2: Worry less; care more.

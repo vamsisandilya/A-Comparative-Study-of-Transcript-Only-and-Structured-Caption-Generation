@@ -1,0 +1,12 @@
+CLIP: audio_27
+
+TRANSCRIPT:
+When you are old, when you are old and grey and full of sleep and nodding by the fire, take down this book and slowly read and dream of the soft look your eyes had once and of their shadows deep. How many loved your moments of glad grace and loved your beauty with love false or true? One man loved the pilgrim soul and you and loved the sorrows of your changing face and bending down beside the glowing bars murmur a little sadly. How love fled and paced upon the mountains overhead and hid his face amid a crowd of stars.
+
+SET X:
+Caption 1: As we age, we often reflect on the beauty we once held and the love that surrounded us. It’s bittersweet to remember how fleeting those moments can be, yet they shape who we are. In the quiet of our memories, we find both solace and sorrow.
+Caption 2: Love may fade, but the memories? They shine like stars. ✨
+
+SET Y:
+Caption 1: As we age and look back, those quiet moments become our most treasured stories. Every glance, every wrinkle tells a tale of love and loss, shaped by time and experience.
+Caption 2: Love wraps around our memories, reflecting both light and shadow.
